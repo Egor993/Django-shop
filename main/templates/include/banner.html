@@ -1,0 +1,91 @@
+<!---->
+<!-- banner -->
+<div class="container-fluid py-md-3">
+	<div class="row">
+		<div class="side-bar col-lg-3">
+
+			<div class="search-bar w3layouts-newsletter">
+				<h3 class="sear-head editContent" >Поиск фильма</h3>
+
+				<form action="{% url 'search' %}" method="get" class="d-flex editContent" >
+					{% csrf_token %}
+					<input type="search" placeholder="Введите название..." name="q" class="form-control" required="">
+					<button type="submit" class="btn1 btn" ><span class="fa fa-search" aria-hidden="true" ></span></button>
+				</form>
+			</div>
+			<!--preference -->
+			<form action="{% url 'filter' %}" method="get">
+			<div class="left-side my-4">
+				<h3 class="sear-head editContent" >Жанры</h3>
+				<ul class="w3layouts-box-list">
+					{% for genre in view.get_genres %}
+						<li class="editContent" >
+							<input type="checkbox" class="checked" name="genre" value="{{ genre.id }}">
+							<span class="span editContent" >{{ genre.name }}</span>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+			<button type="sumbit">Найти</button>
+			</form>
+			<!-- //reviews -->
+			<!-- deals -->
+			<div class="left-side my-4">
+				<h3 class="sear-head editContent">Самые популярные</h3>
+				<div class="special-sec1 row mt-3 editContent">
+					<div class="img-deals col-md-4">
+						<img src="bundles/images/s4.jpg" class="img-fluid" alt="">
+					</div>
+					<div class="img-deal1 col-md-4">
+						<h3 class="editContent">Рэмбо: Последняя кровь</h3>
+						<a href="" class="editContent" ></a>
+					</div>
+
+				</div>
+				<div class="special-sec1 row mt-3 editContent" >
+					<div class="img-deals col-md-4">
+						<img src="bundles/images/s2.jpg" class="img-fluid" alt="" >
+					</div>
+					<div class="img-deal1 col-md-8">
+						<h3 class="editContent" >Холодное сердце 2</h3>
+						<a href="" class="editContent" ></a>
+					</div>
+
+				</div>
+				<div class="special-sec1 row mt-3 editContent" >
+					<div class="img-deals col-md-4">
+						<img src="bundles/images/s1.jpg" class="img-fluid" alt="" >
+					</div>
+					<div class="img-deal1 col-md-8">
+						<h3 class="editContent" >К звездам</h3>
+						<a href="" class="editContent" ></a>
+					</div>
+
+				</div>
+				<div class="special-sec1 row mt-3 editContent" >
+					<div class="img-deals col-md-4">
+						<img src="bundles/images/s5.jpg" class="img-fluid" alt="" >
+					</div>
+					<div class="img-deal1 col-md-8">
+						<h3 class="editContent" >Терминатор: Темные судьбы</h3>
+						<a href="" class="editContent" ></a>
+					</div>
+
+				</div>
+				<div class="special-sec1 row mt-3 editContent" >
+					<div class="img-deals col-md-4">
+						<img src="bundles/images/s3.jpg" class="img-fluid" alt="" >
+					</div>
+					<div class="img-deal1 col-md-8">
+						<h3 class="editContent" >Джокер</h3>
+						<a href="" class="editContent" ></a>
+					</div>
+
+				</div>
+			</div>
+			<!-- //deals -->
+
+		</div>
+
+		<div class="left-ads-display col-lg-9">
+			<div class="row">
