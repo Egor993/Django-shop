@@ -3,7 +3,8 @@
 {% block title %}Корзина{% endblock %}
  
 {% block content %}
-	<ol>
+<!-- Старый способ, когда в корзину попадает каждый объект	-->
+<!-- 	<ol>
 	{% for order in book_list %}
 	<li>
 			<a href="{{ order.order_book.get_absolute_url }}" class="editContent">
@@ -11,5 +12,17 @@
 		</a>
 	</li>
 	{% endfor %}
-	</ol>
+	</ol> -->
+
+<ul>
+	{% for order in ordered_list %}
+	<li>
+		<a href="{{ order.book.get_absolute_url }}" class="editContent">
+			{{ order.book.title }}
+		</a>
+		{{order.count}} шт.
+	</li>
+
+	{% endfor %}
+</ul>
 {% endblock %}

@@ -1,6 +1,0 @@
-array = ["Bob", "Alex", "Bob", "John"];
-result = {i: array.count(i) for i in array};
-
-# print(result)
-for i in array:
-	print(array.count(i))

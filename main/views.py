@@ -72,7 +72,19 @@ def book_details(request, pk): # request Из url и pk тоже
 
 def newcart(request):
 	book_list = Orders.objects.filter(user = request.user)
-	context = {'book_list': book_list}
+	array = [b.order_book.id for b in book_list]
+
+	result = {i: array.count(i) for i in array}
+
+	ordered_list = []
+	for i in result:
+		book = Book.objects.get(id = i)
+		count = result[i]
+		order = {'book': book, 'count':count}
+		ordered_list.append(order)
+
+	context = {'ordered_list':ordered_list}
+
 	return render(request, 'main/newcart.html', context)
 
 def add(request):
@@ -81,6 +93,9 @@ def add(request):
 	order = Orders.objects.create(user = user, 
 		order_book = Book.objects.get(id=book))
 	order.save()
+	# print('Мы в add' + '_' * 30)
+	# print('book id = ' + book)
+	# print('user id = ' + str(user.id))
 	return redirect("book_list")
 
 class GenreYear:
