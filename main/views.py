@@ -82,8 +82,12 @@ def newcart(request):
 		count = result[i]
 		order = {'book': book, 'count':count}
 		ordered_list.append(order)
+	""" Подсчет """
+	user = request.user
+	order_list = Orders.objects.filter(user = user)
+	count = len(order_list)
 
-	context = {'ordered_list':ordered_list}
+	context = {'ordered_list':ordered_list, "count":count}
 
 	return render(request, 'main/newcart.html', context)
 

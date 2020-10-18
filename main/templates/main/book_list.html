@@ -4,38 +4,42 @@
 {% include 'include/banner.html' %}
 <div class="left-ads-display col-lg-9">
 	<div class="row">
-		{% for book in book_list %}
-			<div class="col-md-4 product-men">
-				<div class="product-shoe-info editContent text-center mt-lg-4">
-					<div class="men-thumb-item">
-						<a href="{{ book.get_absolute_url }}" class="editContent">
-						<img src="{{ book.poster.url }}" class="img-fluid" alt="">
-						</a>
-					</div>
-					<div class="item-info-product">
-						<h4 class="">
-							<a href="{{ book.get_absolute_url }}"
-							   class="editContent">
-								{{ book.title }} 
-							</a>
-						</h4>
-						<a href="{% url 'add' %}?new={{book.id}}" >В корзину {{book.id}} ({{user.id}})</a>  <!-- передает book id в переменную new -->
-					{% for author in book.author.all %}
-						<div class="product_price">
-							<div class="grid-price">
-								<span class="money editContent">{{ author.name }}</span>
+		<div class="left-ads-display col-lg-9">
+			<div class="row">
+				{% for book in book_list %}
+					<div class="col-md-4 product-men">
+						<div class="product-shoe-info editContent text-center mt-lg-4">
+							<div class="men-thumb-item">
+								<a href="{{ book.get_absolute_url }}" class="editContent">
+								<img src="{{ book.poster.url }}" class="img-fluid" alt="">
+								</a>
+							</div>
+							<div class="item-info-product">
+								<h4 class="">
+									<a href="{{ book.get_absolute_url }}"
+									   class="editContent">
+										{{ book.title }} 
+									</a>
+								</h4>
+								<a href="{% url 'add' %}?new={{book.id}}" >В корзину {{book.id}} ({{user.id}})</a>  <!-- передает book id в переменную new -->
+							{% for author in book.author.all %}
+								<div class="product_price">
+									<div class="grid-price">
+										<span class="money editContent">{{ author.name }}</span>
+									</div>
+								</div>
+							{% endfor %}
 							</div>
 						</div>
-					{% endfor %}
 					</div>
-				</div>
+				{% endfor %}
 			</div>
-		{% endfor %}
+			<!--<div class="grid-img-right mt-4 text-right bg bg1" >
+				<span class="money editContent" >Flat 50% Off</span>
+				<a href="booksingle.html" class="btn" >Now</a>
+			</div>-->
+		</div>
 	</div>
-	<!--<div class="grid-img-right mt-4 text-right bg bg1" >
-		<span class="money editContent" >Flat 50% Off</span>
-		<a href="booksingle.html" class="btn" >Now</a>
-	</div>-->
 </div>
 {% endblock %}
 </body>
