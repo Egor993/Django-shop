@@ -14,11 +14,16 @@ def index(request):
 	user = request.user
 	order_list = Orders.objects.filter(user = user)
 	count = len(order_list)
-	context = {'count': count, 'testvar':'abcd'} # - словарь, который состоит из элементов: переменная:ее значение.
-	context['testvar'] = 'newabcd'
-	context['var'] = 'afgf'
+	context = {'count': count} # - словарь, который состоит из элементов: переменная:ее значение.
 	return render(request, 'main/index.html', context) # возвращает функцию render, которая принимает запрос 
 	# (request) из urls.py, подставляет шаблон и context 
+
+def payment(request):
+	user = request.user
+	order_list = Orders.objects.filter(user = user)
+	count = len(order_list)
+	context = {'count': count}
+	return render(request, 'main/payment.html', context) # Возращает рендер шаблона в ответ на запрос
 
 def about(request):
 	user = request.user
@@ -26,9 +31,6 @@ def about(request):
 	count = len(order_list)
 	context = {'count': count}
 	return render(request, 'main/about.html', context) # Возращает рендер шаблона в ответ на запрос
-
-def cart(request):
-	return render(request, 'main/cart.html')
 
 def register(request):
 	if request.method == 'POST':
@@ -41,7 +43,7 @@ def register(request):
 	else:
 		form = UserRegisterForm()
 
-	context = {'form': form, 'test2':123456}
+	context = {'form': form}
 	return render(request, 'main/register.html', context) 
 
 def user_login(request):
@@ -62,34 +64,37 @@ def exit(request):
 	logout(request)
 	return redirect('user_login')
 
-def book_details(request, pk): # request Из url и pk тоже
-	print('_' * 37)
-	print(pk)
-	print(request.POST)
-	print('_' * 37)
-	book = Book.objects.get(id=pk)
-	return redirect(book.get_absolute_url())
-
-def newcart(request):
+def cart(request):
 	book_list = Orders.objects.filter(user = request.user)
 	array = [b.order_book.id for b in book_list]
+	array_price = sum([b.order_book.price for b in book_list]) # Выписать как интересную задачку, почему решил таким образом, сколько было способов
+	# print('Мы в array_price' + '_' * 30)
+	# print(array_price)
+	# print('Мы в array' + '_' * 30)
+	# total = sum(array_price) 
+	# print('Мы в total' + '_' * 30)
+	# print(total)
+	# print('Мы в total' + '_' * 30)
 
 	result = {i: array.count(i) for i in array}
 
 	ordered_list = []
+	price_total = 0
 	for i in result:
 		book = Book.objects.get(id = i)
+		# del_book = Orders.objects.get(id = i).delete() # ???
 		count = result[i]
-		order = {'book': book, 'count':count}
+		price_total += count * book.price
+		order = {'book': book, 'count':count, "price":book.price * count} # Производительней, если мало категорий и много заказов
 		ordered_list.append(order)
 	""" Подсчет """
 	user = request.user
 	order_list = Orders.objects.filter(user = user)
 	count = len(order_list)
 
-	context = {'ordered_list':ordered_list, "count":count}
+	context = {'ordered_list':ordered_list, "count":count, "price_total":price_total}  # ,"del_book":del_book
 
-	return render(request, 'main/newcart.html', context)
+	return render(request, 'main/cart.html', context)
 
 def add(request):
 	book = str(request.GET.get("new")) # new = book id, мы передаем book id по кнопке с html
@@ -101,6 +106,10 @@ def add(request):
 	# print('book id = ' + book)
 	# print('user id = ' + str(user.id))
 	return redirect("book_list")
+
+def clear(request):
+    Orders.objects.filter(user = request.user).delete()
+    return redirect("cart")
 
 class GenreYear:
 	""" Жанры и года"""
@@ -129,10 +138,14 @@ class BooksDetailView(GenreYear, DetailView):
 	model = Book
 	slug_field = "url" # ???
 
-	# def get_context_data(self, **kwargs): # ???
-	# 	context = super().get_context_data(**kwargs)
-	# 	context["star_form"] = RatingForm()
-	# 	return context
+	def get_context_data(self, **kwargs):
+		context = super(BooksDetailView, self).get_context_data(**kwargs) # выдергивает уже существующий контекст
+		# Add in a QuerySet count orders
+		user = self.request.user
+		order_list = Orders.objects.filter(user = user)
+		count = len(order_list)
+		context['count'] = count # создает новую позицию (ключ) в словаре
+		return context
 
 
 class AddReview(GenreYear, View): # Класс проверки валидности отзыва и сохранения в БД. ???

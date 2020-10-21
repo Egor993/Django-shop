@@ -20,8 +20,11 @@
 									   class="editContent">
 										{{ book.title }} 
 									</a>
+
 								</h4>
-								<a href="{% url 'add' %}?new={{book.id}}" >В корзину {{book.id}} ({{user.id}})</a>  <!-- передает book id в переменную new -->
+								({{book.price}}$)
+								<a href="{% url 'add' %}?new={{book.id}}" >В корзину</a> <!-- передает book id в переменную new-->
+								 
 							{% for author in book.author.all %}
 								<div class="product_price">
 									<div class="grid-price">

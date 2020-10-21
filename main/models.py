@@ -69,6 +69,7 @@ class Book(models.Model):
 	genres = models.ManyToManyField(Genre, verbose_name="жанры") # ManyToMany связывает сразу с несколькими жанрами
 	url = models.SlugField(max_length=130, unique=True) # Создаем поле ссылки
 	draft = models.BooleanField("Черновик", default=False)
+	price = models.PositiveSmallIntegerField("Цена", default=0)
 
 	def __str__(self):
 		return self.title

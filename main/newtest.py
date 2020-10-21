@@ -1,14 +1,34 @@
-array = [1,2,2,1,4,4,4]
+from datetime import datetime
 
-result = {i: array.count(i) for i in array}
+intcount = 30000
 
-print (result)
+def timer(funk):
+	def wrapper(*args, **kwargs):
+		start = datetime.now()
+		res = funk(*args, **kwargs)
+		print(datetime.now() - start)
+		return res
+	return wrapper
+@timer
+def buh(var=64):
+	# start = datetime.now()
+	count = 0
+	for i in range(var):
+		count += 2**i
+	# time = datetime.now() - start
+	# print(time)
+	return count/intcount
+
+print(buh())
+
+@timer
+def buh2(var=64):
+	# start = datetime.now()
+	count = sum([2**i for i in range(64)])
+	# time = datetime.now() - start
+	# print(time)
+	return count/intcount
+
+print(buh2())
 
 
-l = {}
-b = {}
-for i in array:
-	# b = {i: array.count(i)}
-	l.update({i: array.count(i)})
-	
-print(l)

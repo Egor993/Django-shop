@@ -23,11 +23,10 @@
 							<li><a href="{% url 'user_login' %}">Вход</a></li>
 							{% endif %}
 							{% if request.user.is_authenticated %}
-							<li><a href="{% url 'exit' %}">Выход</a></li>
 							<li><a>User({{request.user}})</a></li>
+							<li><a href="{% url 'exit' %}">Выход</a></li>
 							{% endif %}
-							<li><a href="{% url 'cart' %}">Корзина {{var}}</a></li>
-							<li><a href="{% url 'newcart' %}">Test Корзина {{count}}</a></li>
+							<li><a href="{% url 'cart' %}">Корзина ({{count}})</a></li>
 						</ul>
 					</nav>
 					<!-- //nav -->
